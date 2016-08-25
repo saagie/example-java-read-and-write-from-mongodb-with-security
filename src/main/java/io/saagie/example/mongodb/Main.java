@@ -48,18 +48,16 @@ public class Main {
 		logger.info("Connected to MongoDB "+ mongoDatabase + " database");
 
 		// ====== Inserting a list of BSON Documents in Mongodb
-		logger.info("Begin Inserting documents in Mongodb");
 		List<Document> places = Arrays.asList(restaurant1,restaurant2);
 		db.getCollection("restaurants").insertMany(places);
-		logger.info("End Inserting documents in Mongodb");
+		logger.info("Insert documents into Mongodb with security : OK");
 
 		// ====== Updating a Document
-		logger.info("Updating a document in Mongodb");
 		db.getCollection("restaurants").updateOne(new Document("_id",new ObjectId("57bea96d46e0fb000606c68c")),
 				new Document("$set", new Document("address.street", "East 31st Street")));
+		logger.info("Update a document in Mongodb with security : OK");
 
 		// ====== Finding Documents
-		logger.info("Finding documents in Mongodb");
 		FindIterable<Document> iterable = db.getCollection("restaurants").find();
 		iterable.forEach(new Block<Document>() {
 			@Override
@@ -67,5 +65,6 @@ public class Main {
 				logger.info(document.toString());
 			}
 		});
+		logger.info("Find documents in Mongodb with security : OK");
 	}
 }
