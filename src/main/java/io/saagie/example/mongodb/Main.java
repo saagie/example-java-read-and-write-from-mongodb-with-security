@@ -14,10 +14,11 @@ import com.mongodb.Block;
 
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 public class Main {
 
-	private static final Logger logger = Logger.getLogger("io.saagie.example.mongo.ReadWrite");
+	private static final Logger logger = Logger.getLogger("io.saagie.example.mongo.Main");
 	private static String connectionUri;
 
 	public static void main(String[] args) throws IOException {
@@ -52,6 +53,11 @@ public class Main {
 		db.getCollection("restaurants").insertMany(places);
 		logger.info("End Inserting documents in Mongodb");
 
+		// ====== Updating a Document
+		logger.info("Updating a document in Mongodb");
+		db.getCollection("restaurants").updateOne(new Document("_id",new ObjectId("57bea96d46e0fb000606c68c")),
+				new Document("$set", new Document("address.street", "East 31st Street")));
+
 		// ====== Finding Documents
 		logger.info("Finding documents in Mongodb");
 		FindIterable<Document> iterable = db.getCollection("restaurants").find();
@@ -61,6 +67,5 @@ public class Main {
 				logger.info(document.toString());
 			}
 		});
-
 	}
 }
